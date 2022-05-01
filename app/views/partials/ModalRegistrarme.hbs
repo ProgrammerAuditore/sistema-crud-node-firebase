@@ -23,7 +23,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary btn-registrarme-cerrar" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary btn-registrarme">Save changes</button>
       </div>
     </div>
@@ -32,6 +32,7 @@
 
 <script>
     const formRegistrarme = document.querySelector('#form-registrarme');
+    const btnCerrarRegistrarme = document.querySelector('.btn-registrarme-cerrar');
     const btnRegistrarme = document.querySelector('.btn-registrarme');
 
     btnRegistrarme.addEventListener('click', function(e){ 
@@ -39,6 +40,7 @@
         const inputs = Object.keys(formRegistrarme).map(key => formRegistrarme[key].value || 'input:error');
         const usuarioNuevo = { usuario : inputs[0], correo : inputs[1], passwd : inputs[2]};
         console.log(usuarioNuevo);
+        btnCerrarRegistrarme.click();
     });
 
 </script>

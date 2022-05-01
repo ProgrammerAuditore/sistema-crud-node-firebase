@@ -19,7 +19,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary btn-entrar-cerrar" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary btn-entrar">Save changes</button>
       </div>
     </div>
@@ -28,12 +28,14 @@
 
 <script>
   const formEntrar = document.querySelector('#form-entrar');
+  const btnCerrarEntrar = document.querySelector('.btn-entrar-cerrar');
   const btnEntrar = document.querySelector('.btn-entrar');
 
   btnEntrar.addEventListener('click', function(e){
     const inputs = Object.keys(formEntrar).map(key => formEntrar[key].value || 'input:error');
     const usuario = { correo : inputs[0], passwd : inputs[1]};
     console.log(usuario);
+    btnCerrarEntrar.click();
   });
 
 </script>
