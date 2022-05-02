@@ -58,6 +58,7 @@
           .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
+              swal(`Error ${errorCode}`, `${errorMessage}`, "error");
           });
         
 
