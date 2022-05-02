@@ -10,15 +10,15 @@
         <form id="form-registrarme" action="">
             <div class="mb-3">
               <label for="usuario" class="form-label">Usuario</label>
-              <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Escribe un usuario" aria-describedby="usuarioId">
+              <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Escribe un usuario" aria-describedby="usuarioId" required>
             </div>
             <div class="mb-3">
               <label for="correo" class="form-label">Correo</label>
-              <input type="text" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId">
+              <input type="email" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
-              <label for="passwd" class="form-label">Correo</label>
-              <input type="text" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId">
+              <label for="passwd" class="form-label">Contraseña</label>
+              <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
             </div>
         </form>
       </div>
@@ -30,7 +30,8 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
     const formRegistrarme = document.querySelector('#form-registrarme');
     const btnCerrarRegistrarme = document.querySelector('.btn-registrarme-cerrar');
     const btnRegistrarme = document.querySelector('.btn-registrarme');
@@ -39,8 +40,26 @@
         e.preventDefault();
         const inputs = Object.keys(formRegistrarme).map(key => formRegistrarme[key].value || 'input:error');
         const usuarioNuevo = { usuario : inputs[0], correo : inputs[1], passwd : inputs[2]};
-        console.log(usuarioNuevo);
-        btnCerrarRegistrarme.click();
+        const resp = inputs.includes('input:error');
+       
+        if( resp ){
+          alert('Todos los campos son requeridos.');
+          return;
+        } 
+        
+          const auth = getAuth();
+          createUserWithEmailAndPassword(auth, usuarioNuevo.correo, usuarioNuevo.passwd)
+          .then((userCredential) => {
+              // Signed in
+              btnCerrarRegistrarme.click();
+              Object.keys(formRegistrarme).map(key => formRegistrarme[key].value = '');
+          })
+          .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+          });
+        
+
     });
 
 </script>
