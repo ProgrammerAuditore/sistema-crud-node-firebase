@@ -10,11 +10,11 @@
         <form id="form-entrar">
             <div class="mb-3">
               <label for="correo" class="form-label">Correo</label>
-              <input type="text" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId">
+              <input type="email" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
               <label for="passwd" class="form-label">Correo</label>
-              <input type="text" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId">
+              <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
             </div>
         </form>
       </div>
@@ -26,7 +26,8 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
   const formEntrar = document.querySelector('#form-entrar');
   const btnCerrarEntrar = document.querySelector('.btn-entrar-cerrar');
   const btnEntrar = document.querySelector('.btn-entrar');
@@ -34,8 +35,36 @@
   btnEntrar.addEventListener('click', function(e){
     const inputs = Object.keys(formEntrar).map(key => formEntrar[key].value || 'input:error');
     const usuario = { correo : inputs[0], passwd : inputs[1]};
-    console.log(usuario);
-    btnCerrarEntrar.click();
+    const resp = inputs.includes('input:error');
+
+    if( resp ){
+      alert('Todos los campos son requeridos.');
+      return;
+    }
+
+    // Iniciar sesion
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, usuario.correo, usuario.passwd)
+    .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                btnCerrarEntrar.click();
+                Object.keys(formEntrar).map(key => formEntrar[key].value = '');
+            } else {
+                // User is signed out
+                // ...
+        }
+        });
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
+    
   });
 
 </script>
