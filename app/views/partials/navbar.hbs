@@ -36,7 +36,42 @@
       <div class="d-flex">
         <button type="button" class="btn btn-sm btn-outline-danger m-1" data-bs-toggle="modal" data-bs-target="#registrarmeModal">Registrarme</button>
         <button type="button" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#entrarModal">Entrar</button>
+        <button type="button" class="btn btn-sm btn-outline-danger m-1" id="btn-salir">Salir</button>
       </div>
     </div>
   </div>
 </nav>
+
+<script type="module">
+  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
+  const btnSalir = document.querySelector('#btn-salir');
+
+  btnSalir.addEventListener('click', function(e){
+    swal({
+      title: "Aviso",
+      text: "Estás seguro que deseas cerar sesión del sistema?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((cerarr_sesion) => {
+      if (cerarr_sesion) {
+        fncCerrarSesion();
+      } else {
+        swal("Aún no has cerrado sesión.");
+      }
+    });
+  });
+
+  function fncCerrarSesion(){
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      swal("Enhorabuena", "Se ha registrado exitosamente.", "success");
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      swal(`Error ${errorCode}`, `${errorMessage}`, "error");
+    });
+  }
+
+</script>

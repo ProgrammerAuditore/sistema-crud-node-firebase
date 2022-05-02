@@ -9,11 +9,11 @@
       <div class="modal-body">
         <form id="form-entrar">
             <div class="mb-3">
-              <label for="correo" class="form-label">Correo</label>
+              <label for="correo" class="form-label">Correo electrónico</label>
               <input type="email" name="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
-              <label for="passwd" class="form-label">Correo</label>
+              <label for="passwd" class="form-label">Contraseña</label>
               <input type="password" name="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
             </div>
         </form>
@@ -53,8 +53,7 @@
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                
-                Object.keys(formEntrar).map(key => formEntrar[key].value = '');
+                formEntrar.reset();
                 swal("Bienvenido", "Usted a iniciado sesión exitosamente.", "success");
             } else {
                 // User is signed out

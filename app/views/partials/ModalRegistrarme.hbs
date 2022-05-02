@@ -13,7 +13,7 @@
               <input type="text" name="usuario" class="form-control" placeholder="Escribe un usuario" aria-describedby="usuarioId" required>
             </div>
             <div class="mb-3">
-              <label for="correo" class="form-label">Correo</label>
+              <label for="correo" class="form-label">Correo electrónico</label>
               <input type="email" name="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
@@ -52,7 +52,7 @@
           createUserWithEmailAndPassword(auth, usuarioNuevo.correo, usuarioNuevo.passwd)
           .then((userCredential) => {
               // Signed in
-              Object.keys(formRegistrarme).map(key => formRegistrarme[key].value = '');
+              formRegistrarme.reset();
               swal("Enhorabuena", "Se ha registrado exitosamente.", "success");
           })
           .catch((error) => {

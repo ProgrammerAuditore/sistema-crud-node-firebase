@@ -4,10 +4,10 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "dev": "nodemon main"
+    "dev": "nodemon --legacy-watch main"
   },
   "keywords": [],
-  "author": "",
+  "author": "ProgrammerAuditore",
   "license": "ISC",
   "devDependencies": {
     "morgan": "^1.10.0",

@@ -1,19 +1,12 @@
 version: '3'
 
 services:
-  crud_node:
-    container_name: crud-node
+  sistema_loggin:
+    container_name: crud-sistema-loggin
     restart: always
     build: .
     volumes:
       - .:/app
     ports:
       - "3078:3078"
-    links:
-      - crud_mongo
-  
-  crud_mongo:
-    image: mongo
-    container_name: crud-mongo
-    ports:
-      - "27017:27017"
+    command: npm run dev
