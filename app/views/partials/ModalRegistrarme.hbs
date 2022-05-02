@@ -10,15 +10,15 @@
         <form id="form-registrarme" action="">
             <div class="mb-3">
               <label for="usuario" class="form-label">Usuario</label>
-              <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Escribe un usuario" aria-describedby="usuarioId" required>
+              <input type="text" name="usuario" class="form-control" placeholder="Escribe un usuario" aria-describedby="usuarioId" required>
             </div>
             <div class="mb-3">
               <label for="correo" class="form-label">Correo</label>
-              <input type="email" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
+              <input type="email" name="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
               <label for="passwd" class="form-label">Contraseña</label>
-              <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
+              <input type="password" name="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
             </div>
         </form>
       </div>
@@ -38,12 +38,13 @@
 
     btnRegistrarme.addEventListener('click', function(e){ 
         e.preventDefault();
+        btnCerrarRegistrarme.click();
         const inputs = Object.keys(formRegistrarme).map(key => formRegistrarme[key].value || 'input:error');
         const usuarioNuevo = { usuario : inputs[0], correo : inputs[1], passwd : inputs[2]};
         const resp = inputs.includes('input:error');
        
         if( resp ){
-          alert('Todos los campos son requeridos.');
+          swal("Aviso", "Todo los campos son requeridos", "info");
           return;
         } 
         
@@ -51,8 +52,8 @@
           createUserWithEmailAndPassword(auth, usuarioNuevo.correo, usuarioNuevo.passwd)
           .then((userCredential) => {
               // Signed in
-              btnCerrarRegistrarme.click();
               Object.keys(formRegistrarme).map(key => formRegistrarme[key].value = '');
+              swal("Enhorabuena", "Se ha registrado exitosamente.", "success");
           })
           .catch((error) => {
               const errorCode = error.code;

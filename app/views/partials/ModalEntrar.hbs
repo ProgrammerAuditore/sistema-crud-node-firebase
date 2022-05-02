@@ -3,18 +3,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="entrarModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="entrarModalLabel">Iniciar sesión</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="form-entrar">
             <div class="mb-3">
               <label for="correo" class="form-label">Correo</label>
-              <input type="email" name="correo" id="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
+              <input type="email" name="correo" class="form-control" placeholder="Escribe un correo" aria-describedby="correoId" required>
             </div>
             <div class="mb-3">
               <label for="passwd" class="form-label">Correo</label>
-              <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
+              <input type="password" name="passwd" class="form-control" placeholder="Escribe una contraseña" aria-describedby="passwdId" required>
             </div>
         </form>
       </div>
@@ -33,12 +33,13 @@
   const btnEntrar = document.querySelector('.btn-entrar');
 
   btnEntrar.addEventListener('click', function(e){
+    btnCerrarEntrar.click();
     const inputs = Object.keys(formEntrar).map(key => formEntrar[key].value || 'input:error');
     const usuario = { correo : inputs[0], passwd : inputs[1]};
     const resp = inputs.includes('input:error');
 
     if( resp ){
-      alert('Todos los campos son requeridos.');
+      swal("Aviso", "Todo los campos son requeridos", "info");
       return;
     }
 
@@ -52,8 +53,9 @@
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                btnCerrarEntrar.click();
+                
                 Object.keys(formEntrar).map(key => formEntrar[key].value = '');
+                swal("Bienvenido", "Usted a iniciado sesión exitosamente.", "success");
             } else {
                 // User is signed out
                 // ...
