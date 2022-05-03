@@ -1,3 +1,61 @@
-<div class="alert alert-primary" role="alert">
-  Bienvenidos a la página principal
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <ul class="list-group" id="publicaciones"></ul>
+    </div>
+  </div>
 </div>
+
+<script type="module">
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
+  import { collection, query, where, getDocs  } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+  const publicaciones = document.querySelector('#publicaciones');
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                if(user.uid){
+                  await setupPosts(user);
+                  swal("Hola...", `${user.email}`, "success");
+                }
+            } else {
+                // User is signed out
+                // ...
+        }
+  });
+
+  async function setupPosts(user){
+    let html = '', fs = document.firestore;
+    const q = query(collection(fs, "posts"), where("uid", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    if(querySnapshot.size > 0){
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            const pub = doc.data();
+            const li =`
+            <div class="card m-2">
+              <div class="card-header">
+                Nota
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>${pub.titulo}</p>
+                  <footer class="blockquote-footer">${pub.descripcion}</footer>
+                </blockquote>
+              </div>
+            </div>`;
+            html += li;
+        });
+    }else{
+      html = `<div class="alert alert-danger">No hay publicaciones</div>`;
+    }
+
+    publicaciones.innerHTML = html;
+  }
+
+
+</script>

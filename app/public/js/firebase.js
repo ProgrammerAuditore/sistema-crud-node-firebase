@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
+import { getFirestore  } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 //import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -16,6 +17,5 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-var firebase = initializeApp(firebaseConfig);
-
-export default firebase;
+document.firebase = initializeApp(firebaseConfig);
+document.firestore = getFirestore(document.firebase);
