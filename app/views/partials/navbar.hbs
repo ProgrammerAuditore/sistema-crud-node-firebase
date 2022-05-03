@@ -34,17 +34,20 @@
       </ul>
 
       <div class="d-flex">
-        <button type="button" class="btn btn-sm btn-outline-danger m-1" data-bs-toggle="modal" data-bs-target="#registrarmeModal">Registrarme</button>
-        <button type="button" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#entrarModal">Entrar</button>
-        <button type="button" class="btn btn-sm btn-outline-danger m-1" id="btn-salir">Salir</button>
+        <button type="button" class="btn btn-sm btn-outline-danger m-1 btn-nav-no-sesion" data-bs-toggle="modal" data-bs-target="#registrarmeModal" style="display: none;">Registrarme</button>
+        <button type="button" class="btn btn-sm btn-outline-success m-1 btn-nav-no-sesion" data-bs-toggle="modal" data-bs-target="#entrarModal"  style="display: none;">Entrar</button>
+        <button type="button" class="btn btn-sm btn-outline-danger m-1 btn-nav-sesion" id="btn-salir"  style="display: none;">Salir</button>
       </div>
     </div>
   </div>
 </nav>
 
 <script type="module">
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
   const btnSalir = document.querySelector('#btn-salir');
+  const elNoSession = document.querySelectorAll('.btn-nav-no-sesion');
+  const elSession = document.querySelectorAll('.btn-nav-sesion');
+  const auth = getAuth();
 
   btnSalir.addEventListener('click', function(e){
     swal({
@@ -64,14 +67,27 @@
   });
 
   function fncCerrarSesion(){
-    const auth = getAuth();
-    signOut(auth).then(() => {
-      swal("Enhorabuena", "Ha cerrado sesión exitosamente.", "success");
-    }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      swal(`Error ${errorCode}`, `${errorMessage}`, "error");
-    });
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        swal("Enhorabuena", "Ha cerrado sesión exitosamente.", "success");
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        swal(`Error ${errorCode}`, `${errorMessage}`, "error");
+      });
   }
+
+  
+  onAuthStateChanged(auth, async (user) => {
+      if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          elNoSession.forEach(link => link.style.display = 'none');
+          elSession.forEach(link => link.style.display = 'block');
+      } else {
+          elNoSession.forEach(link => link.style.display = 'block');
+          elSession.forEach(link => link.style.display = 'none');
+      }
+  });
 
 </script>
