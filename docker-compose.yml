@@ -8,5 +8,18 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3078:3078"
+      - "3000:3000"
     command: npm run dev
+
+
+# ! Construir el proyecto
+# docker-compose build
+
+# ! Levantar el proyecto
+# docker-compose up
+
+# ! Detener el proyecto
+# docker-compose stop
+
+# ! Borrar el proyecto
+# docker-compose rm

@@ -4,7 +4,7 @@ const exhbs = require('express-handlebars');
 const path = require('path');
 const indexRoutes = require('./routes/index.routes');
 
-app.set('port', 3078);
+app.set('port', 3000);
 
 app.set('views', path.join(__dirname,'views'));
 
