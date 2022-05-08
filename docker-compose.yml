@@ -6,7 +6,7 @@ services:
     restart: always
     build: .
     volumes:
-      - .:/app
+      - .:/home/max98/workspace
     ports:
       - "3000:3000"
     command: npm run dev

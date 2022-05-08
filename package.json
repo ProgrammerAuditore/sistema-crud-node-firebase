@@ -4,6 +4,8 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
+    "vaglogs" : "vagrant ssh -c \"cd /home/vagrant/workspace/ && docker-compose logs -f --until=2s\"",
+    "vagup" : "vagrant up --provision-with install-docker,run-workspace",
     "dev": "nodemon --legacy-watch main"
   },
   "keywords": [],
