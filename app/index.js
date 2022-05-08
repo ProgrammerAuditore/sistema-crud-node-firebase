@@ -3,6 +3,7 @@ const app = express();
 const exhbs = require('express-handlebars');
 const path = require('path');
 const indexRoutes = require('./routes/index.routes');
+const morgan = require("morgan");
 
 app.set('port', 3000);
 
@@ -18,6 +19,8 @@ app.engine('.hbs', exhbs.engine({
 app.set('view engine', '.hbs');
 
 app.use(indexRoutes);
+
+app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname,'public')));
 
